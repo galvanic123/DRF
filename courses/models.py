@@ -10,7 +10,8 @@ class Course(models.Model):
     )
     description = models.TextField(
         max_length=250,
-        blank=True, null=True,
+        blank=True,
+        null=True,
         verbose_name="Описание курса",
     )
     preview = models.ImageField(
@@ -45,7 +46,7 @@ class Lesson(models.Model):
         upload_to="course/img_lesson/",
         verbose_name="превью",
         blank=True,
-        null=True
+        null=True,
     )
     link_to_video = models.URLField(
         max_length=200,
@@ -57,7 +58,7 @@ class Lesson(models.Model):
         Course,
         on_delete=models.CASCADE,
         verbose_name="Курс",
-        related_name="lessons"
+        related_name="lessons",
     )
 
     class Meta:
