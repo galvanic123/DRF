@@ -24,6 +24,7 @@ class Course(models.Model):
     class Meta:
         verbose_name = "Курс"
         verbose_name_plural = "Курсы"
+        ordering = ['title']
 
     def __str__(self):
         return self.title
