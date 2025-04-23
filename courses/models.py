@@ -15,7 +15,7 @@ class Course(models.Model):
         verbose_name="Описание курса",
     )
     preview = models.ImageField(
-        upload_to="course/img_course/",
+        upload_to="courses/img_course/",
         verbose_name="превью",
         blank=True,
         null=True,
@@ -24,7 +24,6 @@ class Course(models.Model):
     class Meta:
         verbose_name = "Курс"
         verbose_name_plural = "Курсы"
-        ordering = ['title']
 
     def __str__(self):
         return self.title
@@ -44,7 +43,7 @@ class Lesson(models.Model):
         verbose_name="Описание урока",
     )
     preview = models.ImageField(
-        upload_to="course/img_lesson/",
+        upload_to="courses/img_lesson/",
         verbose_name="превью",
         blank=True,
         null=True,
@@ -65,6 +64,7 @@ class Lesson(models.Model):
     class Meta:
         verbose_name = "Урок"
         verbose_name_plural = "Уроки"
+        ordering = ['title']
 
     def __str__(self):
         return self.title
