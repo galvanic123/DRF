@@ -8,12 +8,19 @@ class LessonSerializer(ModelSerializer):
         fields = "__all__"
 
 class CourseSerializer(ModelSerializer):
-    lesson_count = SerializerMethodField()
     lessons = LessonSerializer(many=True, read_only=True)
-
-    def get_lesson_count(self, obj):
-        return obj.lessons.count()
 
     class Meta:
         model = Course
-        fields = ('id', 'title', 'description', 'lessons', 'lessons_count')
+        fields = "__all__"
+
+class CourseDetailSerializer(ModelSerializer):
+    lesson_count = SerializerMethodField()
+    lessons = LessonSerializer(many=True, read_only=True)
+
+    def get_lesson_count(self, course):
+        return Lesson.objects.filter(course=course).count()
+
+    class Meta:
+        model = Course
+        fields = ('title', 'description', 'lessons', 'lesson_count')
