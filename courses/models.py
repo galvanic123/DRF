@@ -10,11 +10,12 @@ class Course(models.Model):
     )
     description = models.TextField(
         max_length=250,
-        blank=True, null=True,
+        blank=True,
+        null=True,
         verbose_name="Описание курса",
     )
     preview = models.ImageField(
-        upload_to="course/img_course/",
+        upload_to="courses/img_course/",
         verbose_name="превью",
         blank=True,
         null=True,
@@ -25,7 +26,7 @@ class Course(models.Model):
         verbose_name_plural = "Курсы"
 
     def __str__(self):
-        return f"{self.title}"
+        return self.title
 
 
 class Lesson(models.Model):
@@ -42,10 +43,10 @@ class Lesson(models.Model):
         verbose_name="Описание урока",
     )
     preview = models.ImageField(
-        upload_to="course/img_lesson/",
+        upload_to="courses/img_lesson/",
         verbose_name="превью",
         blank=True,
-        null=True
+        null=True,
     )
     link_to_video = models.URLField(
         max_length=200,
@@ -57,12 +58,13 @@ class Lesson(models.Model):
         Course,
         on_delete=models.CASCADE,
         verbose_name="Курс",
-        related_name="lessons"
+        related_name="lessons",
     )
 
     class Meta:
         verbose_name = "Урок"
         verbose_name_plural = "Уроки"
 
+
     def __str__(self):
-        return f"{self.title}"
+        return self.title
