@@ -31,9 +31,11 @@ INSTALLED_APPS = [
 
     "rest_framework",
     "django_filters",
+
     "users",
     "courses",
 ]
+
 
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
