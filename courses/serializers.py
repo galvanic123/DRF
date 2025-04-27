@@ -1,4 +1,5 @@
 from rest_framework.serializers import ModelSerializer, SerializerMethodField
+
 from courses.models import Course, Lesson
 
 
@@ -7,12 +8,14 @@ class LessonSerializer(ModelSerializer):
         model = Lesson
         fields = "__all__"
 
+
 class CourseSerializer(ModelSerializer):
     lessons = LessonSerializer(many=True, read_only=True)
 
     class Meta:
         model = Course
         fields = "__all__"
+
 
 class CourseDetailSerializer(ModelSerializer):
     lesson_count = SerializerMethodField()
@@ -23,4 +26,4 @@ class CourseDetailSerializer(ModelSerializer):
 
     class Meta:
         model = Course
-        fields = ('title', 'description', 'lessons', 'lesson_count')
+        fields = ("title", "description", "lessons", "lesson_count")
