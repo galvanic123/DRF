@@ -1,5 +1,7 @@
 from django.db import models
 
+from config.settings import AUTH_USER_MODEL
+
 
 class Course(models.Model):
     """Модель курса."""
@@ -15,10 +17,17 @@ class Course(models.Model):
         verbose_name="Описание курса",
     )
     preview = models.ImageField(
-        upload_to="course/img_course/",
+        upload_to="courses/img_course/",
         verbose_name="превью",
         blank=True,
         null=True,
+    )
+    owner = models.ForeignKey(
+        AUTH_USER_MODEL,
+        on_delete=models.SET_NULL,
+        blank=True,
+        null=True,
+        verbose_name="Владелец",
     )
 
     class Meta:
@@ -43,7 +52,7 @@ class Lesson(models.Model):
         verbose_name="Описание урока",
     )
     preview = models.ImageField(
-        upload_to="course/img_lesson/",
+        upload_to="courses/img_lesson/",
         verbose_name="превью",
         blank=True,
         null=True,
@@ -59,6 +68,13 @@ class Lesson(models.Model):
         on_delete=models.CASCADE,
         verbose_name="Курс",
         related_name="lessons",
+    )
+    owner = models.ForeignKey(
+        AUTH_USER_MODEL,
+        on_delete=models.SET_NULL,
+        blank=True,
+        null=True,
+        verbose_name="Владелец",
     )
 
     class Meta:
