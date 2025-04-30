@@ -35,3 +35,7 @@ class SubscriptionSerializer(ModelSerializer):
     class Meta:
         model = Subscription
         fields = '__all__'
+
+        def get_is_subscribed(self, obj):
+            user = self.context["request"].user
+            return Subscription.objects.filter(user=user, course=obj).exists()
