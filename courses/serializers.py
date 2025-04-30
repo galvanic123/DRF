@@ -8,8 +8,9 @@ from courses.validators import YouTubeValidator
 class LessonSerializer(ModelSerializer):
     class Meta:
         model = Lesson
-        fields = "__all__"
         validators = [YouTubeValidator(field="link_to_video")]
+        fields = "__all__"
+
 
 
 class CourseSerializer(ModelSerializer):

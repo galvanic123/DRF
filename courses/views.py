@@ -5,7 +5,7 @@ from rest_framework.generics import (
     RetrieveAPIView,
     UpdateAPIView, get_object_or_404,
 )
-from rest_framework.permissions import IsAuthenticated
+from rest_framework.permissions import IsAuthenticated, AllowAny
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework.viewsets import ModelViewSet
@@ -22,6 +22,7 @@ from users.permissions import IsModer, IsOwner
 
 class CourseViewSet(ModelViewSet):
     queryset = Course.objects.all()
+    serializer_class = CourseSerializer
     pagination_class = CoursesPagination
 
     def get_serializer_class(self):
@@ -40,7 +41,7 @@ class CourseViewSet(ModelViewSet):
         elif self.action in ["update", "retrieve"]:
             self.permission_classes = (IsModer | IsOwner,)
         elif self.action == "destroy":
-            self.permission_classes = IsOwner | ~IsModer
+            self.permission_classes = (IsOwner | ~IsModer)
         return super().get_permissions()
 
 

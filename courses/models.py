@@ -77,12 +77,14 @@ class Lesson(models.Model):
         verbose_name="Владелец",
     )
 
+    def __str__(self):
+        return self.title
+
     class Meta:
         verbose_name = "Урок"
         verbose_name_plural = "Уроки"
 
-    def __str__(self):
-        return self.title
+
 
 
 class Subscription(models.Model):
