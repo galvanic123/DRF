@@ -1,6 +1,7 @@
+from django.core.serializers import serialize
 from rest_framework.serializers import ModelSerializer, SerializerMethodField
 
-from courses.models import Course, Lesson
+from courses.models import Course, Lesson, Subscription
 from courses.validators import YouTubeValidator
 
 
@@ -29,3 +30,8 @@ class CourseDetailSerializer(ModelSerializer):
     class Meta:
         model = Course
         fields = ("title", "description", "lessons", "lesson_count")
+
+class SubscriptionSerializer(ModelSerializer):
+    class Meta:
+        model = Subscription
+        fields = '__all__'
