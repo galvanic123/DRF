@@ -2,15 +2,14 @@ from django.core.serializers import serialize
 from rest_framework.serializers import ModelSerializer, SerializerMethodField
 
 from courses.models import Course, Lesson, Subscription
-from courses.validators import YouTubeValidator
+from courses.validators import LinkToVideoValidator
 
 
 class LessonSerializer(ModelSerializer):
     class Meta:
         model = Lesson
-        validators = [YouTubeValidator(field="link_to_video")]
         fields = "__all__"
-
+        validators = [LinkToVideoValidator(field="link_to_video")]
 
 
 class CourseSerializer(ModelSerializer):
