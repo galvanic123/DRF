@@ -71,6 +71,7 @@ class LessonAPITestCase(APITestCase):
         """Тестирование отображение всех уроков"""
         url = reverse("courses:lesson_list")
         response = self.client.get(url)
+        print(response.json())
         data = response.json()
         result = {
             "count": 1,
@@ -88,6 +89,7 @@ class LessonAPITestCase(APITestCase):
             ],
         }
         self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertEqual(data, result)
 
 
 class SubscriptionTestCase(APITestCase):
