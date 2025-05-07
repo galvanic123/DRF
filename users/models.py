@@ -86,6 +86,22 @@ class Payments(models.Model):
         verbose_name="Способ оплаты",
     )
 
+    session_id = models.CharField(
+        max_length=255,
+        null=True,
+        blank=True,
+        verbose_name="ID сессии",
+        help_text="Укажите ID сессии"
+    )
+
+    link = models.URLField(
+        max_length=400,
+        null=True,
+        blank=True,
+        verbose_name="Ссылка на оплату",
+        help_text="Укажите ссылку на оплату"
+    )
+
     def __str__(self):
         return f"Платёж от {self.user} за {self.paid_course or self.paid_lesson}"
 
