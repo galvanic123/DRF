@@ -103,7 +103,7 @@ class Payments(models.Model):
     )
 
     def __str__(self):
-        return f"Платёж от {self.user} за {self.paid_course or self.paid_lesson}"
+        return f"Платёж от {self.user} за {self.paid_course if self.paid_course else self.paid_lesson}"
 
     class Meta:
         verbose_name = "Платёж"

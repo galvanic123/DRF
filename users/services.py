@@ -30,7 +30,6 @@ def creating_session_stripe(price_id):
         payment_method_types=["card"],
         line_items=[{"price": price_id, "quantity": 1}],
         mode="payment",
-        success_url="https://example.com/success?session_id={CHECKOUT_SESSION_ID}",
-        cancel_url="https://example.com/cancel",
+        success_url="https://127.0.0.1:8000/success?session_id={CHECKOUT_SESSION_ID}",
     )
     return session.id, session.url

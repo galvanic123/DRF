@@ -11,6 +11,8 @@ from users.services import creating_product_stripe, creating_price_stripe, creat
 
 
 class UserCreateAPIView(CreateAPIView):
+    """CRUD для регистрации пользователя"""
+
     serializer_class = CustomsUserSerializer
     queryset = CustomsUser.objects.all()
     permission_classes = (AllowAny,)
@@ -35,21 +37,19 @@ class PaymentsViewSet(ModelViewSet):
 class PaymentCreateAPIView(CreateAPIView):
     """Оплата курса через страйп"""
 
-    queryset = CustomsUser.objects.all()
+    queryset = Payments.objects.all()
     serializer_class = PaymentsSerializer
 
-    def post(self, request):
-        course_id = request.data.get('course_id')
-        amount = request.data.get('amount')
-        course = Course.objects.get(id=course_id)
-
-        product = creating_product_stripe(course)
-        price = creating_price_stripe(amount, product.id)
-
-        session_id, payment_link = creating_session_stripe(price)
-
-        return Response({"session_id": session_id, "payment_link": payment_link}, status=status.HTTP_201_CREATED)
+    def perform_create(self, serializer):
+        payment = serializer.save(user=self.request.user)
+        product_id = creating_product_stripe(payment)
+        price_id = creating_price_stripe(product_id, payment)
+        session_id, session_url = creating_session_stripe(price_id)
+        payment.session_id = session_id
+        payment.link = session_url
+        payment.save()
 
 class CustomsUserViewSet(ModelViewSet):
+    """Пользовательское вью"""
     queryset = CustomsUser.objects.all()
     serializer_class = CustomsUserSerializer
