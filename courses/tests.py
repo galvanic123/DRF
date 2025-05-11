@@ -6,7 +6,6 @@ from courses.models import Course, Lesson, Subscription
 from users.models import CustomsUser
 
 
-
 class LessonAPITestCase(APITestCase):
     """Тестирование уроков"""
 
@@ -94,32 +93,28 @@ class LessonAPITestCase(APITestCase):
 
 class SubscriptionTestCase(APITestCase):
     def setUp(self):
-        self.user = CustomsUser.objects.create(email='admin@example.com')
-        self.course = Course.objects.create(title='Кулинария. Выпечка.')
-        self.lesson = Lesson.objects.create(title='Выбор муки', course=self.course, owner=self.user)
-        self.subscription = Subscription.objects.create(user=self.user, course=self.course)
+        self.user = CustomsUser.objects.create(email="admin@example.com")
+        self.course = Course.objects.create(title="Кулинария. Выпечка.")
+        self.lesson = Lesson.objects.create(
+            title="Выбор муки", course=self.course, owner=self.user
+        )
+        self.subscription = Subscription.objects.create(
+            user=self.user, course=self.course
+        )
         self.client.force_authenticate(user=self.user)
 
     def test_subscription_create(self):
         Subscription.objects.all().delete()
-        url = reverse('courses:subscription_create')
+        url = reverse("courses:subscription_create")
         data = {
-            'course': self.course.pk,
+            "course": self.course.pk,
         }
         response = self.client.post(url, data)
-        self.assertEqual(
-            response.status_code, status.HTTP_200_OK
-        )
-        self.assertEqual(
-            Subscription.objects.all()[0].course, self.course
-        )
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertEqual(Subscription.objects.all()[0].course, self.course)
 
     def test_subscription_delete(self):
-        url = reverse('courses:subscription_create')
-        response = self.client.post(url, {'course': self.course.pk})
-        self.assertEqual(
-            response.status_code, status.HTTP_200_OK
-        )
-        self.assertEqual(
-            Subscription.objects.count(), 0
-        )
+        url = reverse("courses:subscription_create")
+        response = self.client.post(url, {"course": self.course.pk})
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertEqual(Subscription.objects.count(), 0)

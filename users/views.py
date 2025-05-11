@@ -7,7 +7,11 @@ from requests import Response
 from courses.models import Course
 from users.models import CustomsUser, Payments
 from users.serializers import CustomsUserSerializer, PaymentsSerializer
-from users.services import creating_product_stripe, creating_price_stripe, creating_session_stripe
+from users.services import (
+    creating_product_stripe,
+    creating_price_stripe,
+    creating_session_stripe,
+)
 
 
 class UserCreateAPIView(CreateAPIView):
@@ -34,6 +38,7 @@ class PaymentsViewSet(ModelViewSet):
     )
     ordering_fields = ("payment_date",)
 
+
 class PaymentCreateAPIView(CreateAPIView):
     """Оплата курса через страйп"""
 
@@ -49,7 +54,9 @@ class PaymentCreateAPIView(CreateAPIView):
         payment.link = session_url
         payment.save()
 
+
 class CustomsUserViewSet(ModelViewSet):
     """Пользовательское вью"""
+
     queryset = CustomsUser.objects.all()
     serializer_class = CustomsUserSerializer

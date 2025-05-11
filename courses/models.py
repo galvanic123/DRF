@@ -85,8 +85,6 @@ class Lesson(models.Model):
         verbose_name_plural = "Уроки"
 
 
-
-
 class Subscription(models.Model):
     user = models.ForeignKey(
         AUTH_USER_MODEL,

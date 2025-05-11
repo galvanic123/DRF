@@ -32,12 +32,11 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
-
     "rest_framework",
     "rest_framework_simplejwt",
-    'drf_yasg',
+    "drf_yasg",
     "django_filters",
-
+    "django_celery_beat",
     "users",
     "courses",
 ]
@@ -146,3 +145,39 @@ MEDIA_ROOT = BASE_DIR / "media"
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
 AUTH_USER_MODEL = "users.CustomsUser"
+
+# Celery Configuration Options
+CELERY_TIMEZONE = TIME_ZONE
+CELERY_TASK_TRACK_STARTED = True
+CELERY_TASK_TIME_LIMIT = 30 * 60
+
+# URL-адрес брокера сообщений
+CELERY_BROKER_URL = os.getenv(
+    "CELERY_BROKER_URL"
+)  # Например, Redis, который по умолчанию работает на порту 6379
+
+# URL-адрес брокера результатов, также Redis
+CELERY_RESULT_BACKEND = os.getenv("CELERY_RESULT_BACKEND")
+
+EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
+EMAIL_HOST = "smtp.yandex.ru"
+EMAIL_PORT = 465
+EMAIL_USE_TLS = False
+EMAIL_USE_SSL = True
+EMAIL_HOST_USER = os.getenv("EMAIL_HOST_USER")
+EMAIL_HOST_PASSWORD = os.getenv("EMAIL_HOST_PASSWORD")
+
+SERVER_EMAIL = EMAIL_HOST_USER
+DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
+
+CELERY_BEAT_SCHEDULER = "django_celery_beat.schedulers:DatabaseScheduler"
+
+# Настройки для Celery
+CELERY_BEAT_SCHEDULE = {
+    "checking_user_activity": {
+        "task": "courses.tasks.checking_user_activity",  # Путь к задаче
+        "schedule": timedelta(
+            days=1
+        ),  # Расписание выполнения задачи (например, каждые 10 минут)
+    },
+}
