@@ -31,10 +31,11 @@ class CourseDetailSerializer(ModelSerializer):
         model = Course
         fields = ("title", "description", "lessons", "lesson_count")
 
+
 class SubscriptionSerializer(ModelSerializer):
     class Meta:
         model = Subscription
-        fields = '__all__'
+        fields = "__all__"
 
         def get_is_subscribed(self, obj):
             user = self.context["request"].user

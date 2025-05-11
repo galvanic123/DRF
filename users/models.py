@@ -91,7 +91,7 @@ class Payments(models.Model):
         null=True,
         blank=True,
         verbose_name="ID сессии",
-        help_text="Укажите ID сессии"
+        help_text="Укажите ID сессии",
     )
 
     link = models.URLField(
@@ -99,7 +99,7 @@ class Payments(models.Model):
         null=True,
         blank=True,
         verbose_name="Ссылка на оплату",
-        help_text="Укажите ссылку на оплату"
+        help_text="Укажите ссылку на оплату",
     )
 
     def __str__(self):

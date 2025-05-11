@@ -3,7 +3,8 @@ from rest_framework.generics import (
     DestroyAPIView,
     ListAPIView,
     RetrieveAPIView,
-    UpdateAPIView, get_object_or_404,
+    UpdateAPIView,
+    get_object_or_404,
 )
 from rest_framework.permissions import IsAuthenticated, AllowAny
 from rest_framework.response import Response
@@ -15,7 +16,8 @@ from courses.paginators import CoursesPagination
 from courses.serializers import (
     CourseDetailSerializer,
     CourseSerializer,
-    LessonSerializer, SubscriptionSerializer,
+    LessonSerializer,
+    SubscriptionSerializer,
 )
 from courses.tasks import newsletter_about_updating_course_materials
 from users.permissions import IsModer, IsOwner
@@ -48,7 +50,7 @@ class CourseViewSet(ModelViewSet):
         elif self.action in ["update", "retrieve"]:
             self.permission_classes = (IsModer | IsOwner,)
         elif self.action == "destroy":
-            self.permission_classes = (IsOwner | ~IsModer)
+            self.permission_classes = IsOwner | ~IsModer
         return super().get_permissions()
 
 
@@ -86,6 +88,7 @@ class LessonDestroyAPIView(DestroyAPIView):
     serializer_class = LessonSerializer
     permission_classes = (IsAuthenticated, IsOwner)
 
+
 class SubscriptionCreateAPIView(APIView):
     permission_classes = (IsAuthenticated,)
     queryset = Subscription.objects.all()
@@ -93,7 +96,7 @@ class SubscriptionCreateAPIView(APIView):
 
     def post(self, request, *args, **kwargs):
         user = self.request.user
-        course_id = self.request.data.get('course')
+        course_id = self.request.data.get("course")
         course = get_object_or_404(Course, pk=course_id)
 
         subs_item = Subscription.objects.filter(user=user, course=course)
