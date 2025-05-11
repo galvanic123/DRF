@@ -37,7 +37,7 @@ INSTALLED_APPS = [
     "rest_framework_simplejwt",
     'drf_yasg',
     "django_filters",
-
+    'django_celery_beat',
     "users",
     "courses",
 ]
@@ -168,3 +168,13 @@ EMAIL_HOST_PASSWORD = os.getenv("EMAIL_HOST_PASSWORD")
 
 SERVER_EMAIL = EMAIL_HOST_USER
 DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
+
+CELERY_BEAT_SCHEDULER = 'django_celery_beat.schedulers:DatabaseScheduler'
+
+# Настройки для Celery
+CELERY_BEAT_SCHEDULE = {
+    'checking_user_activity': {
+        'task': 'courses.tasks.checking_user_activity',  # Путь к задаче
+        'schedule': timedelta(days=1),  # Расписание выполнения задачи (например, каждые 10 минут)
+    },
+}
