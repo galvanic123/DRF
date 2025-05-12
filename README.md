@@ -82,8 +82,8 @@ coverage report
 celery -A config beat --loglevel=info
 celery -A config worker -l INFO -P eventlet
 
-#Автор
+### Автор
 Александр Савицкий
 
-#Лицензия
+### Лицензия
 Этот проект лицензирован MIT лицензией.
