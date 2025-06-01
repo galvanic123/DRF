@@ -71,6 +71,10 @@
 ### Урок 34.2: Docker Compose
 Задание:
 Описать файл docker-compose для запуска всех частей проекта единой командой.
+Опишите Dockerfile для запуска контейнера с проектом.
+Оберните в Docker Compose Django-проект с БД PostgreSQL.
+Допишите в docker-compose.yml работу с Redis.
+Допишите в docker-compose.yml работу с Celery.
 ## Установка
 Клонирование проекта:
 https://github.com/galvanic123/DRF
