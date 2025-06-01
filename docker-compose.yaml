@@ -1,4 +1,4 @@
-version: "3.9"
+# version: "3.9"
 
 services:
 
@@ -14,13 +14,13 @@ services:
     image: postgres:16-alpine
     restart: on-failure
     env_file:
-      - .env
+      - ./.env
     expose:
       - "5432"
     volumes:
       - pg_data:/var/lib/postgresql/data
     healthcheck:
-      test: ["CMD-SHELL", "pg-isready -h db -U $POSTGRES_USER"]
+      test: ["CMD-SHELL", "pg-isready -h db -U postgres"]
       interval: 10s
       retries: 5
       timeout: 5s
@@ -36,14 +36,14 @@ services:
     volumes:
       - .:/app
     env_file:
-      - .env
+      - ./.env
     networks:
       - my_network
 
   celery:
     build: .
     tty: true
-    command: celery -A config worker -l INFO
+    command: celery -A config worker -l INFO -P eventlet
     restart: on-failure
     volumes:
       - .:/app
@@ -52,7 +52,7 @@ services:
       - db
       - app
     env_file:
-      - .env
+      - ./.env
     networks:
       - my_network
 
@@ -68,7 +68,7 @@ services:
       - db
       - app
     env_file:
-      - .env
+      - ./.env
     networks:
       - my_network
 
