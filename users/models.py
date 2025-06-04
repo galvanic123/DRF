@@ -50,21 +50,19 @@ class CustomsUser(AbstractUser):
     def __str__(self):
         return self.email
 
+
 class Payments(models.Model):
     PAYMENT_METHOD_CHOICES = [
-        ('CASH', 'Наличные'),
-        ('TRANSFER', 'Перевод на счёт'),
+        ("CASH", "Наличные"),
+        ("TRANSFER", "Перевод на счёт"),
     ]
     user = models.ForeignKey(
         CustomsUser,
         on_delete=models.CASCADE,
-        related_name='payments',
-        verbose_name='пользователь',
+        related_name="payments",
+        verbose_name="пользователь",
     )
-    payment_date = models.DateTimeField(
-        auto_now_add=True,
-        verbose_name='Дата оплаты'
-    )
+    payment_date = models.DateTimeField(auto_now_add=True, verbose_name="Дата оплаты")
     paid_course = models.ForeignKey(
         Course,
         null=True,
@@ -80,16 +78,32 @@ class Payments(models.Model):
     payment_amount = models.DecimalField(
         max_digits=10,
         decimal_places=2,
-        verbose_name='Сумма оплаты',
+        verbose_name="Сумма оплаты",
     )
     payment_method = models.CharField(
         max_length=10,
-        choices= PAYMENT_METHOD_CHOICES,
-        verbose_name='Способ оплаты',
+        choices=PAYMENT_METHOD_CHOICES,
+        verbose_name="Способ оплаты",
+    )
+
+    session_id = models.CharField(
+        max_length=255,
+        null=True,
+        blank=True,
+        verbose_name="ID сессии",
+        help_text="Укажите ID сессии",
+    )
+
+    link = models.URLField(
+        max_length=400,
+        null=True,
+        blank=True,
+        verbose_name="Ссылка на оплату",
+        help_text="Укажите ссылку на оплату",
     )
 
     def __str__(self):
-        return f"Платёж от {self.user} за {self.paid_course or self.paid_lesson}"
+        return f"Платёж от {self.user} за {self.paid_course if self.paid_course else self.paid_lesson}"
 
     class Meta:
         verbose_name = "Платёж"
