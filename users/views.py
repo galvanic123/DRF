@@ -1,10 +1,9 @@
 from django_filters.rest_framework import DjangoFilterBackend
-from rest_framework import filters, status
+from rest_framework import filters
 from rest_framework.generics import CreateAPIView
 from rest_framework.permissions import AllowAny
 from rest_framework.viewsets import ModelViewSet
-from requests import Response
-from courses.models import Course
+
 from users.models import CustomsUser, Payments
 from users.serializers import CustomsUserSerializer, PaymentsSerializer
 from users.services import (

@@ -1,4 +1,3 @@
-from django.core.serializers import serialize
 from rest_framework.serializers import ModelSerializer, SerializerMethodField
 
 from courses.models import Course, Lesson, Subscription
