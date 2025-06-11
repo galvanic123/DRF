@@ -68,7 +68,7 @@ jobs:
     needs: build
     runs-on: ubuntu-latest
     env:
-      SECRET_KEY: ${{ secrets.SSH_KEY_PRIVAT }}
+      SECRET_KEY: ${{ secrets.SECRET_KEY }}
       POSTGRES_DB: ${{ secrets.DATABASE_NAME }}
       POSTGRES_USER: ${{ secrets.DATABASE_USER }}
       POSTGRES_PASSWORD: ${{ secrets.DATABASE_PASSWORD }}
