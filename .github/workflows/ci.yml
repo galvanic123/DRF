@@ -67,12 +67,27 @@ jobs:
   deploy:
     needs: build
     runs-on: ubuntu-latest
+    env:
+      SECRET_KEY: ${{ secrets.SSH_KEY_PRIVAT }}
+      POSTGRES_DB: ${{ secrets.DATABASE_NAME }}
+      POSTGRES_USER: ${{ secrets.DATABASE_USER }}
+      POSTGRES_PASSWORD: ${{ secrets.DATABASE_PASSWORD }}
+      DATABASE_HOST: ${{ secrets.DATABASE_HOST }}
+      SECRET_KEY_API: ${{ secrets.SECRET_KEY_API }}
+      CELERY_BROKER_URL: ${{ secrets.CELERY_BROKER_URL }}
+      CELERY_RESULT_BACKEND: ${{ secrets.CELERY_RESULT_BACKEND }}
+      EMAIL_HOST: ${{ secrets.EMAIL_HOST }}
+      EMAIL_PORT: ${{ secrets.EMAIL_PORT }}
+      EMAIL_USE_TLS: ${{ secrets.EMAIL_USE_TLS }}
+      EMAIL_USE_SSL: ${{ secrets.EMAIL_USE_SSL }}
+      EMAIL_HOST_USER: ${{ secrets.EMAIL_HOST_USER }}
+      EMAIL_HOST_PASSWORD: ${{ secrets.EMAIL_HOST_PASSWORD }}
 
     steps:
       - name: Set up SSH
         uses: webfactory/ssh-agent@v0.9.0
         with:
-          ssh-private-key: ${{ secrets.SSH_KEY }}
+          ssh-private-key: ${{ secrets.SSH_KEY_PRIVAT }}
 
       - name: Deploy to Server
         run: |
