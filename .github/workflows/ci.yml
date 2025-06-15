@@ -100,10 +100,10 @@ jobs:
       - name: Deploy to server
         run: |
           ssh -o StrictHostKeyChecking=no ${{ secrets.SSH_USER }}@${{ secrets.SERVER_IP }} << 'EOF'
-          docker pull ${{ secrets.DOCKER_HUB_USERNAME }}/django_drf:${{ github.sha }}
-          docker stop django_drf || true
-          docker rm django_drf || true
-          docker run -d --name django_drf -p 80:8000 ${{ secrets.DOCKER_HUB_USERNAME }}/django_drf:${{ github.sha }}
+          docker pull ${{ secrets.DOCKER_HUB_USERNAME }}/courses:${{ github.sha }}
+          docker stop courses || true
+          docker rm courses || true
+          docker run -d --name courses -p 80:8000 ${{ secrets.DOCKER_HUB_USERNAME }}/courses:${{ github.sha }}
           EOF
 
 
