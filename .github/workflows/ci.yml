@@ -27,6 +27,9 @@ jobs:
     runs-on: ubuntu-latest
     env:
       SECRET_KEY: ${{ secrets.SECRET_KEY }}
+      POSTGRES_DB: ${{ secrets.DATABASE_NAME }}
+      POSTGRES_USER: ${{ secrets.DATABASE_USER }}
+      POSTGRES_PASSWORD: ${{ secrets.DATABASE_PASSWORD }}
 
     steps:
       - name: Check out code
@@ -96,9 +99,13 @@ jobs:
 
       - name: Deploy to server
         run: |
-          ssh -o StrictHostKeyChecking=no ${{ secrets.SSH_USER }}@${{ secrets.SERVER_IP }} << 'EOF'
-          docker pull ${{ secrets.DOCKER_HUB_USERNAME }}/django_drf:${{ github.sha }}
-          docker stop django_drf || true
-          docker rm django_drf || true
-          docker run -d --name django_drf -p 80:8000 ${{ secrets.SSH_USER }}@${{ secrets.SERVER_IP }}
+          ssh -o StrictHostKeyChecking=no ${{ secrets.SSH_USER }}@${{ secrets.SERVER_IP }} "mkdir -p /django_drf" || false
+          scp -o StrictHostKeyChecking=no docker-compose.yml ${{ secrets.SSH_USER }}@${{ secrets.SERVER_IP }}:/django_drf
+          scp -o StrictHostKeyChecking=no nginx.conf ${{ secrets.SSH_USER }}@${{ secrets.SERVER_IP }}:/django_drf
+          scp -o StrictHostKeyChecking=no .env ${{ secrets.SSH_USER }}@${{ secrets.SERVER_IP }}:/django_drf
+          ssh -o StrictHostKeyChecking=no ${{ secrets.SSH_USER }}@${{ secrets.SERVER_IP }} << EOF
+          cd /django_drf
+          docker-compose pull
+          docker-compose down --remove-orphans || true
+          docker-compose up -d --force-recreate
           EOF
